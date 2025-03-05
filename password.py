@@ -2,6 +2,9 @@ import streamlit as st
 import re
 import random
 import string
+import pandas as pd
+
+st.set_page_config(page_title="Password Strength Meter", page_icon="🔐", layout="centered")
 
 def check_password_strength(password):
     common_passwords = ["123456", "password", "123456789", "12345678", "12345", "1234567", "qwerty", "abcdef", "password1", "admin"]
@@ -61,27 +64,11 @@ st.markdown("""
 st.markdown("**🔑 Type your password below to analyze its strength:**")
 password = st.text_input("**Enter Password:**", type="password")
 
-st.markdown("""
-    <style>
-    div.stButton > button:first-child {
-        background-color: #4CAF50;
-        color: white;
-        border-radius: 10px;
-        padding: 10px 20px;
-        font-size: 16px;
-        font-weight: bold;
-    }
-    div.stButton > button:hover {
-        background-color: #45a049;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
 if st.button("🔍 Check Strength"):
     if password:
         score, feedback, password_length = check_password_strength(password)
         
-        st.write(f"🔢Password Length: {password_length} characters")
+        st.write(f"🔢 Password Length: {password_length} characters")
         
         if score == 0:
             st.error("❌ This password is too common. Choose a more secure one.")
@@ -112,6 +99,11 @@ if st.button("🔄 Generate Strong Password"):
     strong_password = generate_strong_password(password_length)
     st.code(strong_password, language='text')
 
+    # Store generated password in history
+    st.session_state.password_history.append(strong_password)
+    if len(st.session_state.password_history) > 5:
+        st.session_state.password_history.pop(0)
+
 # Sidebar with app information
 st.sidebar.title("ℹ️ About This App")
 st.sidebar.info(
@@ -132,6 +124,17 @@ st.sidebar.markdown(
 
 # Sidebar password history
 st.sidebar.title("📜 Password History")
-if st.session_state.password_history:
-    for i, past_password in enumerate(reversed(st.session_state.password_history), 1):
-        st.sidebar.text(f"{i}. {past_password}")
+for i, past_password in enumerate(reversed(st.session_state.password_history), 1):
+    st.sidebar.text(f"{i}. {past_password}")
+
+# Convert history to DataFrame for CSV download
+password_df = pd.DataFrame(st.session_state.password_history, columns=["Passwords"])
+password_csv = password_df.to_csv(index=False).encode('utf-8')
+
+# Download history button (Always Visible)
+st.sidebar.download_button(label="📥 Download History", data=password_csv, file_name="password_history.csv", mime="text/csv")
+
+# Clear history button (Always Visible)
+if st.sidebar.button("🗑️ Clear History"):
+    st.session_state.password_history = []
+    st.rerun()
