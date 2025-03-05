@@ -58,8 +58,8 @@ st.markdown("""
     <h1 style='text-align: center;'>🔐 Password Strength Meter</h1>
 """, unsafe_allow_html=True)
 
-st.write("### 🔑 Type your password below to analyze its strength:")
-password = st.text_input("Enter Password:", type="password")
+st.markdown("**🔑 Type your password below to analyze its strength:**")
+password = st.text_input("**Enter Password:**", type="password")
 
 st.markdown("""
     <style>
@@ -81,7 +81,7 @@ if st.button("🔍 Check Strength"):
     if password:
         score, feedback, password_length = check_password_strength(password)
         
-        st.write(f"🔢 Password Length: {password_length} characters")
+        st.write(f"🔢Password Length: {password_length} characters")
         
         if score == 0:
             st.error("❌ This password is too common. Choose a more secure one.")
@@ -105,9 +105,9 @@ if st.button("🔍 Check Strength"):
         st.warning("⚠ Please enter a password to check its strength.")
 
 # Choose password length
-password_length = st.number_input("🔢 Choose password length:", min_value=8, max_value=32, value=12)
+password_length = st.number_input("**🔢 Choose password length:**", min_value=8, max_value=32, value=12)
 
-st.write("### 🔑 Need a Strong Password? Click Below!")
+st.markdown("**🔑 Need a Strong Password? Click Below!**")
 if st.button("🔄 Generate Strong Password"):
     strong_password = generate_strong_password(password_length)
     st.code(strong_password, language='text')
