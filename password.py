@@ -62,7 +62,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.markdown("**🔑 Type your password below to analyze its strength:**")
-password = st.text_input("**Enter Password:**", type="password")
+password = st.text_input("**🔒 Enter Password:**", type="password")
 
 if st.button("🔍 Check Strength"):
     if password:
