@@ -83,11 +83,6 @@ if st.button("🔍 Check Strength"):
             st.write("### 💡 Suggestions to Improve Your Password:")
             for tip in feedback:
                 st.write(f"- {tip}")
-        
-        # Store password in history (only store last 5 passwords for security reasons)
-        st.session_state.password_history.append(password)
-        if len(st.session_state.password_history) > 5:
-            st.session_state.password_history.pop(0)
     else:
         st.warning("⚠ Please enter a password to check its strength.")
 
