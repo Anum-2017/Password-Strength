@@ -1,3 +1,4 @@
+
 import streamlit as st
 import re
 import random
@@ -85,8 +86,8 @@ if st.button("🔍 Check Strength"):
                 st.write(f"- {tip}")
     else:
         st.warning("⚠ Please enter a password to check its strength.")
-        
-        st.markdown("---")
+
+st.markdown("---")
 
 # Choose password length
 password_length = st.number_input("**🔢 Choose password length:**", min_value=8, max_value=32, value=12)
