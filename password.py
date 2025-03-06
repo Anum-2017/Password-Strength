@@ -85,6 +85,8 @@ if st.button("🔍 Check Strength"):
                 st.write(f"- {tip}")
     else:
         st.warning("⚠ Please enter a password to check its strength.")
+        
+        st.markdown("---")
 
 # Choose password length
 password_length = st.number_input("**🔢 Choose password length:**", min_value=8, max_value=32, value=12)
@@ -133,3 +135,9 @@ st.sidebar.download_button(label="📥 Download History", data=password_csv, fil
 if st.sidebar.button("🗑️ Clear History"):
     st.session_state.password_history = []
     st.rerun()
+
+# Footer
+st.markdown("""
+    <hr>
+    <p style='text-align: center; font-size: 14px;'>Developed by Anum Kamal 💜 | Powered by Streamlit</p>
+""", unsafe_allow_html=True)
